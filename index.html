@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Raíz Viva · Escapadas ecológicas en Girona</title>
+<style>
+  :root{--verde:#2f6b4f;--verde-osc:#1f4a36;--verde-claro:#e6f2ea;--tierra:#c9743a;--crema:#faf7f0;--texto:#23332b;--gris:#6b7d73;--error:#b3261e}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Segoe UI',Arial,sans-serif;background:var(--crema);color:var(--texto);line-height:1.6}
+  h1,h2,h3{line-height:1.2}
+  section{padding:70px 24px}
+  .wrap{max-width:1050px;margin:0 auto}
+  .titulo{text-align:center;margin-bottom:40px}
+  .titulo h2{font-size:2rem;color:var(--verde-osc)}
+  .titulo p{color:var(--gris);margin-top:8px}
+
+  /* MENÚ */
+  nav{background:#fff;position:sticky;top:0;z-index:30;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+  nav .wrap{display:flex;justify-content:space-between;align-items:center;padding:14px 24px}
+  .logo{font-weight:800;font-size:1.3rem;color:var(--verde);cursor:pointer}
+  .logo span{color:var(--tierra)}
+  nav ul{list-style:none;display:flex;gap:24px;align-items:center}
+  nav a.enlace{color:var(--texto);text-decoration:none;font-weight:600;font-size:.95rem}
+  nav a.enlace:hover{color:var(--tierra)}
+
+  /* BOTONES */
+  .btn{display:inline-block;background:var(--tierra);color:#fff;border:2px solid var(--tierra);padding:14px 30px;border-radius:30px;font-size:1rem;font-weight:700;cursor:pointer;text-decoration:none;transition:.2s}
+  .btn:hover{background:#a85f2e;border-color:#a85f2e;transform:translateY(-2px)}
+  .btn.sec{background:transparent;color:var(--verde);border-color:var(--verde)}
+  .btn.sec:hover{background:var(--verde-claro);transform:none}
+  .btn.blanco{background:#fff;color:var(--verde-osc);border-color:#fff}
+  .btn.small{padding:9px 20px;font-size:.9rem}
+
+  /* PANTALLAS */
+  .pantalla{display:none}
+  .pantalla.activa{display:block;animation:fade .4s}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  /* PORTADA */
+  .hero{background:linear-gradient(rgba(20,50,35,.62),rgba(20,50,35,.72)),linear-gradient(135deg,#2f6b4f,#7fb88f);color:#fff;text-align:center;padding:110px 24px}
+  .hero .etiqueta{display:inline-block;background:rgba(255,255,255,.18);padding:6px 16px;border-radius:20px;font-size:.85rem;margin-bottom:20px}
+  .hero h1{font-size:3rem;max-width:780px;margin:0 auto 18px}
+  .hero p{max-width:640px;margin:0 auto 30px;font-size:1.2rem;opacity:.95}
+  .hero .acciones{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .cifras{display:flex;gap:40px;justify-content:center;flex-wrap:wrap;margin-top:50px}
+  .cifras div b{display:block;font-size:2rem}
+  .cifras div span{font-size:.9rem;opacity:.85}
+
+  /* TARJETAS */
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px}
+  .card{background:#fff;border-radius:18px;padding:28px;box-shadow:0 4px 16px rgba(0,0,0,.07);text-align:center}
+  .card .ico{font-size:2.4rem;margin-bottom:8px}
+  .card h3{color:var(--verde);margin-bottom:8px}
+  .card p{color:var(--gris);font-size:.95rem}
+
+  /* ESCAPADAS */
+  .esc{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,.08);display:flex;flex-direction:column}
+  .esc .img{height:150px;display:flex;align-items:center;justify-content:center;font-size:4rem}
+  .esc .cuerpo{padding:22px;display:flex;flex-direction:column;gap:8px;flex:1}
+  .esc .fecha{color:var(--tierra);font-weight:700;font-size:.85rem}
+  .esc .precio{font-size:1.4rem;font-weight:800;color:var(--verde-osc)}
+  .esc .btn{margin-top:auto;text-align:center}
+
+  /* PASOS */
+  .pasos{counter-reset:p}
+  .paso{background:#fff;border-radius:16px;padding:24px 24px 24px 76px;position:relative;box-shadow:0 3px 12px rgba(0,0,0,.06)}
+  .paso::before{counter-increment:p;content:counter(p);position:absolute;left:22px;top:22px;width:38px;height:38px;border-radius:50%;background:var(--verde);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800}
+  .paso h3{color:var(--verde);margin-bottom:4px}
+
+  /* OPINIONES */
+  .alt{background:var(--verde-claro)}
+  .op{background:#fff;border-radius:16px;padding:24px;box-shadow:0 3px 12px rgba(0,0,0,.06)}
+  .op .estrellas{color:#e0a526;margin-bottom:8px}
+  .op b{display:block;margin-top:12px;color:var(--verde-osc)}
+
+  /* FAQ */
+  details{background:#fff;border-radius:12px;padding:16px 20px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+  summary{font-weight:700;cursor:pointer;color:var(--verde-osc)}
+  details p{margin-top:10px;color:var(--gris)}
+
+  /* CTA FINAL */
+  .cta-final{background:var(--verde-osc);color:#fff;text-align:center}
+  .cta-final h2{font-size:2rem;margin-bottom:12px}
+  .cta-final p{margin-bottom:26px;opacity:.9}
+
+  /* FORMULARIO */
+  .form-box{background:#fff;border-radius:18px;padding:34px;box-shadow:0 4px 16px rgba(0,0,0,.08);max-width:580px;margin:0 auto}
+  label{display:block;font-weight:600;margin:16px 0 6px}
+  input,select{width:100%;padding:12px;border:2px solid #cfd8d2;border-radius:10px;font-size:1rem;font-family:inherit;background:#fff}
+  input:focus,select:focus{outline:none;border-color:var(--verde)}
+  input.invalido,select.invalido{border-color:var(--error);background:#fdf1f0}
+  .msg-error{color:var(--error);font-size:.88rem;margin-top:4px;display:none}
+  .msg-error.visible{display:block}
+  .check{display:flex;gap:10px;align-items:flex-start;margin-top:18px}
+  .check input{width:auto;margin-top:5px}
+  .check label{margin:0;font-weight:400;font-size:.92rem}
+  .alerta{background:#fdf1f0;border-left:5px solid var(--error);padding:12px 16px;border-radius:8px;margin:16px 0 0;display:none;color:var(--error);font-weight:600}
+  .alerta.visible{display:block}
+  .acciones-form{display:flex;gap:12px;margin-top:26px;flex-wrap:wrap}
+  .centro{text-align:center}
+  .grande{font-size:4rem}
+  .resumen{background:var(--verde-claro);border-radius:12px;padding:16px;text-align:left;margin:20px 0}
+  .progreso{display:flex;justify-content:center;gap:8px;margin-top:22px}
+  .progreso span{width:36px;height:6px;border-radius:3px;background:#d4ddd7}
+  .progreso span.on{background:var(--tierra)}
+
+  footer{background:#16352a;color:#cfe3d6;text-align:center;padding:30px 24px;font-size:.88rem}
+
+  /* PANEL DEMO */
+  #demo{position:fixed;bottom:14px;right:14px;background:#fff;border:2px solid #c93a82;border-radius:12px;padding:10px 12px;font-size:.78rem;box-shadow:0 4px 14px rgba(0,0,0,.18);z-index:50}
+  #demo b{color:#c93a82}
+  #demo label{display:flex;gap:6px;align-items:center;font-weight:400;margin:4px 0;font-size:.78rem}
+  #demo input{width:auto}
+
+  @media(max-width:760px){nav ul{display:none}.hero h1{font-size:2.1rem}}
+</style>
+</head>
+<body>
+
+<!-- ======== MENÚ ======== -->
+<nav>
+  <div class="wrap">
+    <div class="logo" onclick="irInicio()">🌿 Raíz<span>Viva</span></div>
+    <ul>
+      <li><a class="enlace" href="#" onclick="ancla('escapadas');return false;">Escapadas</a></li>
+      <li><a class="enlace" href="#" onclick="ancla('como');return false;">Cómo funciona</a></li>
+      <li><a class="enlace" href="#" onclick="ancla('opiniones');return false;">Opiniones</a></li>
+      <li><a class="enlace" href="#" onclick="ancla('faq');return false;">Preguntas</a></li>
+      <!-- CTA 1: menú -->
+      <li><a class="btn small" href="#" data-cta="menu" onclick="irAFormulario(this);return false;">Reservar plaza</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ======== PANTALLA 1: LANDING ======== -->
+<main id="landing" class="pantalla activa">
+
+  <header class="hero">
+    <span class="etiqueta">🌍 Turismo sostenible · Girona</span>
+    <h1>Viaja mejor. Deja huella verde.</h1>
+    <p>Escapadas de fin de semana con alojamiento ecológico, productores locales y cero plásticos de un solo uso.</p>
+    <div class="acciones">
+      <!-- CTA 2: portada -->
+      <a class="btn" href="#" data-cta="portada" onclick="irAFormulario(this);return false;">Quiero reservar mi plaza</a>
+      <a class="btn blanco" href="#" onclick="ancla('escapadas');return false;">Ver escapadas</a>
+    </div>
+    <div class="cifras">
+      <div><b>+1.200</b><span>viajeros felices</span></div>
+      <div><b>4.9 ★</b><span>valoración media</span></div>
+      <div><b>3.500</b><span>árboles plantados</span></div>
+    </div>
+  </header>
+
+  <section>
+    <div class="wrap">
+      <div class="titulo"><h2>¿Por qué Raíz Viva?</h2><p>Viajar con conciencia no tiene por qué ser complicado.</p></div>
+      <div class="grid">
+        <div class="card"><div class="ico">🏡</div><h3>Alojamiento eco</h3><p>Casas rurales con certificación de sostenibilidad.</p></div>
+        <div class="card"><div class="ico">🥕</div><h3>Producto local</h3><p>Comidas con productores de kilómetro cero.</p></div>
+        <div class="card"><div class="ico">🚆</div><h3>Movilidad limpia</h3><p>Tren, bici y rutas a pie para reducir emisiones.</p></div>
+        <div class="card"><div class="ico">🌳</div><h3>Compensamos CO₂</h3><p>Cada reserva planta un árbol autóctono.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="escapadas" class="alt">
+    <div class="wrap">
+      <div class="titulo"><h2>Próximas escapadas</h2><p>Plazas limitadas a grupos pequeños.</p></div>
+      <div class="grid">
+        <div class="esc">
+          <div class="img" style="background:#cfe8f0">🚴</div>
+          <div class="cuerpo"><span class="fecha">15-17 MAYO</span><h3>Costa Brava en bici</h3><p>Calas escondidas y pueblos marineros por caminos de ronda.</p><span class="precio">189 €</span>
+          <!-- CTA 3: tarjeta 1 -->
+          <a class="btn" href="#" data-cta="escapada-costa" onclick="irAFormulario(this,'Costa Brava en bici · 15-17 mayo');return false;">Reservar esta escapada</a></div>
+        </div>
+        <div class="esc">
+          <div class="img" style="background:#dcebd3">🥾</div>
+          <div class="cuerpo"><span class="fecha">5-7 JUNIO</span><h3>Pirineos a pie</h3><p>Senderismo entre prados y refugios con cocina de montaña.</p><span class="precio">215 €</span>
+          <!-- CTA 4: tarjeta 2 -->
+          <a class="btn" href="#" data-cta="escapada-pirineos" onclick="irAFormulario(this,'Pirineos a pie · 5-7 junio');return false;">Reservar esta escapada</a></div>
+        </div>
+        <div class="esc">
+          <div class="img" style="background:#efe0d4">🍇</div>
+          <div class="cuerpo"><span class="fecha">19-21 JUNIO</span><h3>Ruta del vino ecológico</h3><p>Bodegas ecológicas, catas y paseos entre viñedos.</p><span class="precio">199 €</span>
+          <!-- CTA 5: tarjeta 3 -->
+          <a class="btn" href="#" data-cta="escapada-vino" onclick="irAFormulario(this,'Ruta del vino ecológico · 19-21 junio');return false;">Reservar esta escapada</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="como">
+    <div class="wrap">
+      <div class="titulo"><h2>Cómo funciona</h2><p>Reservar es cuestión de un minuto.</p></div>
+      <div class="pasos grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr))">
+        <div class="paso"><h3>Elige tu escapada</h3><p>Mira las fechas y escoge la que más te guste.</p></div>
+        <div class="paso"><h3>Reserva tu plaza</h3><p>Rellena el formulario con tus datos básicos.</p></div>
+        <div class="paso"><h3>Recibe la confirmación</h3><p>Te llega un correo con el número de reserva.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="opiniones" class="alt">
+    <div class="wrap">
+      <div class="titulo"><h2>Lo que dicen nuestros viajeros</h2></div>
+      <div class="grid">
+        <div class="op"><div class="estrellas">★★★★★</div><p>"Nunca había viajado tan a gusto. Todo local, todo cuidado."</p><b>Marta R.</b></div>
+        <div class="op"><div class="estrellas">★★★★★</div><p>"Dormir en una casa eco y comer de productores del pueblo, increíble."</p><b>Jordi P.</b></div>
+        <div class="op"><div class="estrellas">★★★★★</div><p>"Se nota que les importa de verdad el impacto. Repetiré."</p><b>Claudia S.</b></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="wrap" style="max-width:760px">
+      <div class="titulo"><h2>Preguntas frecuentes</h2></div>
+      <details><summary>¿Puedo cancelar mi reserva?</summary><p>Sí, hasta 7 días antes con devolución completa.</p></details>
+      <details><summary>¿Qué incluye el precio?</summary><p>Alojamiento, comidas con producto local y guía durante la ruta.</p></details>
+      <details><summary>¿Cómo llego al punto de salida?</summary><p>Te indicamos la mejor opción en tren o autobús desde tu ciudad.</p></details>
+      <details><summary>¿Hay descuentos para grupos?</summary><p>Sí, a partir de 4 personas aplicamos un 10 % de descuento.</p></details>
+    </div>
+  </section>
+
+  <section class="cta-final">
+    <div class="wrap">
+      <h2>Quedan pocas plazas para la próxima escapada</h2>
+      <p>Reserva ahora y asegura tu sitio en la naturaleza.</p>
+      <!-- CTA 6: final -->
+      <a class="btn blanco" href="#" data-cta="final" onclick="irAFormulario(this);return false;">Reservar plaza ahora</a>
+    </div>
+  </section>
+</main>
+
+<!-- ======== PANTALLA 2: FORMULARIO ======== -->
+<main id="formulario" class="pantalla">
+  <section>
+    <div class="wrap">
+      <div class="form-box">
+        <h2>Reserva tu plaza 🌱</h2>
+        <p style="color:var(--gris)">Solo te llevará un minuto. Te confirmaremos por email.</p>
+        <div id="alerta" class="alerta">Hay campos con errores. Revísalos y vuelve a intentarlo.</div>
+        <form id="form" novalidate onsubmit="enviar(event)">
+          <label for="nombre">Nombre completo</label>
+          <input id="nombre" type="text" placeholder="Ej. Laura Martínez" oninput="limpiar(this)">
+          <div class="msg-error" id="e-nombre">Escribe tu nombre (mínimo 2 caracteres).</div>
+
+          <label for="email">Correo electrónico</label>
+          <input id="email" type="email" placeholder="tucorreo@ejemplo.com" oninput="limpiar(this)">
+          <div class="msg-error" id="e-email">Introduce un email válido (ej. nombre@dominio.com).</div>
+
+          <label for="escapada">Escapada</label>
+          <select id="escapada" onchange="limpiar(this)">
+            <option value="">Elige una opción…</option>
+            <option>Costa Brava en bici · 15-17 mayo</option>
+            <option>Pirineos a pie · 5-7 junio</option>
+            <option>Ruta del vino ecológico · 19-21 junio</option>
+          </select>
+          <div class="msg-error" id="e-escapada">Selecciona una escapada.</div>
+
+          <label for="personas">Número de personas</label>
+          <input id="personas" type="number" min="1" max="8" placeholder="1 a 8" oninput="limpiar(this)">
+          <div class="msg-error" id="e-personas">Indica entre 1 y 8 personas.</div>
+
+          <div class="check">
+            <input id="acepto" type="checkbox" onchange="limpiar(this)">
+            <label for="acepto">Acepto la política de privacidad y recibir información de mi reserva.</label>
+          </div>
+          <div class="msg-error" id="e-acepto">Debes aceptar la política de privacidad.</div>
+
+          <div class="acciones-form">
+            <button class="btn" type="submit">Confirmar reserva</button>
+            <!-- RUTA ALTERNATIVA 1: abandono -->
+            <button class="btn sec" type="button" onclick="abandonar()">Ahora no, volver</button>
+          </div>
+        </form>
+      </div>
+      <div class="progreso"><span class="on"></span><span class="on"></span><span></span></div>
+    </div>
+  </section>
+</main>
+
+<!-- ======== PANTALLA 3: CONFIRMACIÓN ======== -->
+<main id="confirmacion" class="pantalla">
+  <section>
+    <div class="wrap">
+      <div class="form-box centro">
+        <div class="grande">✅</div>
+        <h2>¡Plaza reservada!</h2>
+        <p style="margin-top:8px">Gracias, <b id="c-nombre"></b>. Te hemos enviado un correo a <b id="c-email"></b>.</p>
+        <div class="resumen">
+          <b>Tu escapada:</b> <span id="c-escapada"></span><br>
+          <b>Personas:</b> <span id="c-personas"></span><br>
+          <b>Nº de reserva:</b> <span id="c-ref"></span>
+        </div>
+        <p>🌳 Plantaremos un árbol autóctono por tu reserva.</p>
+        <br>
+        <button class="btn sec" onclick="reiniciar()">Volver al inicio</button>
+      </div>
+      <div class="progreso"><span class="on"></span><span class="on"></span><span class="on"></span></div>
+    </div>
+  </section>
+</main>
+
+<!-- ======== PANTALLA 4: ERROR DE ENVÍO ======== -->
+<main id="errorenvio" class="pantalla">
+  <section>
+    <div class="wrap">
+      <div class="form-box centro">
+        <div class="grande">⚠️</div>
+        <h2>No hemos podido enviar tu reserva</h2>
+        <p style="margin:10px 0 20px">Ha habido un problema de conexión. Tus datos no se han perdido.</p>
+        <div class="acciones-form" style="justify-content:center">
+          <button class="btn" onclick="reintentar()">Reintentar</button>
+          <button class="btn sec" onclick="abandonar()">Salir</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ======== PANTALLA 5: ABANDONO ======== -->
+<main id="abandono" class="pantalla">
+  <section>
+    <div class="wrap">
+      <div class="form-box centro">
+        <div class="grande">👋</div>
+        <h2>¿Te vas sin reservar?</h2>
+        <p style="margin:10px 0 18px">No pasa nada. Si quieres, déjanos tu email y te avisaremos cuando abramos nuevas escapadas.</p>
+        <input id="email-aviso" type="email" placeholder="tucorreo@ejemplo.com">
+        <div class="acciones-form" style="justify-content:center">
+          <!-- CTA 7: recuperación -->
+          <button class="btn" data-cta="abandono" onclick="irAFormulario(this)">Volver a mi reserva</button>
+          <button class="btn sec" onclick="reiniciar()">Ir al inicio</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <b>🌿 Raíz Viva</b> · Escapadas ecológicas en Girona<br>
+  Prototipo académico · LinkiaFP · Actividad 5
+</footer>
+
+<!-- Panel solo para la demostración -->
+<div id="demo">
+  <b>Modo demo</b>
+  <label><input type="checkbox" id="simular-fallo"> Simular fallo de envío</label>
+</div>
+
+<script>
+  var registro = [];
+  function log(e){registro.push(e+' · '+new Date().toLocaleTimeString());console.log('[Embudo]',e);}
+
+  function mostrar(id){
+    document.querySelectorAll('.pantalla').forEach(function(p){p.classList.remove('activa')});
+    document.getElementById(id).classList.add('activa');
+    window.scrollTo(0,0);
+  }
+
+  function irInicio(){ mostrar('landing'); }
+
+  function ancla(id){
+    mostrar('landing');
+    setTimeout(function(){ var el=document.getElementById(id); if(el) el.scrollIntoView({behavior:'smooth'}); },60);
+  }
+
+  // Todos los CTA equivalentes llevan al MISMO destino: el formulario
+  function irAFormulario(el,escapada){
+    var origen = (el && el.getAttribute && el.getAttribute('data-cta')) || 'otro';
+    log('CTA pulsado: '+origen+' -> formulario');
+    mostrar('formulario');
+    if(escapada){ document.getElementById('escapada').value=escapada; limpiar(document.getElementById('escapada')); }
+  }
+
+  function limpiar(c){
+    c.classList.remove('invalido');
+    var e=document.getElementById('e-'+c.id); if(e) e.classList.remove('visible');
+  }
+
+  function marcar(id,malo){
+    var c=document.getElementById(id), e=document.getElementById('e-'+id);
+    if(malo){ if(c.type!=='checkbox') c.classList.add('invalido'); e.classList.add('visible'); }
+    else { c.classList.remove('invalido'); e.classList.remove('visible'); }
+    return malo;
+  }
+
+  function validar(){
+    var nombre=document.getElementById('nombre').value.trim();
+    var email=document.getElementById('email').value.trim();
+    var esc=document.getElementById('escapada').value;
+    var per=parseInt(document.getElementById('personas').value,10);
+    var acepto=document.getElementById('acepto').checked;
+    var reEmail=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+    var n=0;
+    n+=marcar('nombre', nombre.length<2);
+    n+=marcar('email', !reEmail.test(email));
+    n+=marcar('escapada', esc==='');
+    n+=marcar('personas', isNaN(per)||per<1||per>8);
+    n+=marcar('acepto', !acepto);
+    return n===0;
+  }
+
+  function enviar(ev){
+    ev.preventDefault();
+    log('Envio intentado');
+    var alerta=document.getElementById('alerta');
+    if(!validar()){
+      alerta.classList.add('visible');
+      log('Validacion fallida -> correccion de error'); // RUTA ALTERNATIVA 2
+      var p=document.querySelector('.invalido'); if(p) p.focus();
+      return;
+    }
+    alerta.classList.remove('visible');
+    if(document.getElementById('simular-fallo').checked){
+      log('Fallo de servidor -> pantalla de error');
+      mostrar('errorenvio'); return;
+    }
+    document.getElementById('c-nombre').textContent=document.getElementById('nombre').value.trim();
+    document.getElementById('c-email').textContent=document.getElementById('email').value.trim();
+    document.getElementById('c-escapada').textContent=document.getElementById('escapada').value;
+    document.getElementById('c-personas').textContent=document.getElementById('personas').value;
+    document.getElementById('c-ref').textContent='RV-'+Math.floor(10000+Math.random()*89999);
+    log('Envio correcto -> confirmacion');
+    mostrar('confirmacion');
+  }
+
+  function reintentar(){ log('Reintento de envio'); document.getElementById('simular-fallo').checked=false; mostrar('formulario'); }
+  function abandonar(){ log('Abandono del formulario'); mostrar('abandono'); }
+  function reiniciar(){
+    document.getElementById('form').reset();
+    document.getElementById('alerta').classList.remove('visible');
+    document.querySelectorAll('.invalido').forEach(function(x){x.classList.remove('invalido')});
+    document.querySelectorAll('.msg-error').forEach(function(x){x.classList.remove('visible')});
+    log('Reinicio'); mostrar('landing');
+  }
+</script>
+</body>
+</html>
